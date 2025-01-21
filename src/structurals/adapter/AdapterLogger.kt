@@ -1,25 +1,45 @@
 package structurals.adapter
 
-// Creamos una interface que va hacer de adapter
-interface MyLogger {
-    fun log(message: String)
-}
-
-// Ahora creamos una implementacion
-class FileLogger: MyLogger {
-    override fun log(message: String) {
+// Creamos un logger en file
+class FileLogger {
+    fun log(message: String) {
         println("Writing to file: $message")
     }
 }
 
-class RemoteLogger: MyLogger {
-    override fun log(message: String) {
+// Tambien creamos un logger en remote simulando que es de terceros
+class RemoteLogger {
+    fun logEvent(message: String) {
         println("Remote:")
         println("Sending to remote server: $message")
     }
 }
 
-class Repositoru(val logger: MyLogger) {
+// Creamos una interface que va hacer de adapter
+interface LoggerAdapter {
+    fun log(message: String)
+}
+
+class FileLog : LoggerAdapter {
+    private val logger = FileLogger()
+
+    override fun log(message: String) {
+        logger.log(message)
+    }
+}
+
+class RemoteLog : LoggerAdapter {
+    private val logger = RemoteLogger()
+
+    override fun log(message: String) {
+        logger.logEvent(message)
+    }
+}
+
+// Podrimos tener muchos archivos que usen FileLogger
+// pero si llegamos a cambiar de logger, tendremos que
+// hacerlo en todos los archivos
+class Repositoru(private val logger: LoggerAdapter) {
     fun save(message: String) {
         logger.log(message)
     }
@@ -27,14 +47,14 @@ class Repositoru(val logger: MyLogger) {
 
 fun main() {
     // Usamos la implementacion de file
-    var logger: MyLogger= FileLogger()
+    var logger: LoggerAdapter = FileLog()
 
     // Ahora inyectamos la implementacion en el repositorio
     var repository = Repositoru(logger)
     repository.save("Hello from File Logger")
 
     // ahora si cambiamos de logger esto no afecta el funcionamiento de nuestro repo
-    logger = RemoteLogger()
+    logger = RemoteLog()
     repository = Repositoru(logger)
     repository.save("Hello from Remote Logger")
 }
