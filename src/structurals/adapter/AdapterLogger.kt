@@ -1,5 +1,9 @@
 package structurals.adapter
 
+/**
+ * Nos permite adaptar objetos que tengan interfaces incompatibles, de esta
+ * forma creamos una comunicacion entre ambos objetos.
+ */
 // Creamos un logger en file
 class FileLogger {
     fun log(message: String) {

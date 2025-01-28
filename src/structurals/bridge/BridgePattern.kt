@@ -1,6 +1,9 @@
 package structurals.bridge
 
 /**
+ * Desacopla una abstraccion de su implementacion para que las 2 puedan cambiar de manera independiente.
+ * Uso extensivo de la composición.
+ *
  * 	Desacoplamiento:
  * 	Los personajes no dependen directamente de una implementación específica de ataque.
  * 	El ataque se inyecta como un objeto de tipo Attack. Esto permite que las clases Warrior y Wizard permanezcan inmutables

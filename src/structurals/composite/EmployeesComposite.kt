@@ -1,5 +1,13 @@
 package structurals.composite
 
+/**
+ * Permite componer objetos en estructuras de arbol y trabajar con estructuras
+ * como si fueran objetos independientes
+ *
+ * Este patron aboga por el uso de la recursibidad entre objetos, un objeto puede agregar
+ * varios objetos y esos objetos pueden ser le mismo tipo.
+ */
+
 interface Employee {
     fun getEmployeeCount(): Int
     fun getEmployeeName(): String
